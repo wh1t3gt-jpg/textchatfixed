@@ -1,37 +1,34 @@
-# Render-ready Text Chat Server
+# TextChat Server
 
-This folder contains the ASP.NET Core 8 server for the WinForms text-chat project, prepared for deployment on Render.
+ASP.NET Core 8 text-chat backend for a WinForms client.
 
-## Files
+Features:
+- Registration and login
+- BCrypt password hashing
+- Server browser
+- Multiple chat servers
+- Join/leave
+- Chat history
+- Online member lists
+- Admin kick and per-server bans
+- Render/Docker support
+- `/health` endpoint
 
-- `Program.cs` - API, accounts, chat rooms, sessions, members, admin kick/ban.
-- `Server.csproj` - .NET 8 dependencies.
-- `Dockerfile` - builds and runs the server on Render.
-- `render.yaml` - Render Blueprint configuration.
-- `.dockerignore` - keeps local/build files out of the Docker image.
-
-## Render settings
-
-If you connect this repository to Render, the Blueprint uses:
-
-- Runtime: Docker
-- Plan: Free
-- Health check: `/health`
-- Port: the `PORT` environment variable (Render normally provides `10000`)
-
-Render gives the web service a public `onrender.com` URL after deployment.
-
-## Admin account
-
-Set these as Render environment variables (do NOT commit real passwords to GitHub):
-
+## Render
+Use a Render Web Service with Docker and the Free plan.
+Set:
 - `ACCOUNT_ADMIN_USER`
 - `ACCOUNT_ADMIN_PASSWORD`
 
-The server creates that admin account on first startup if the username does not already exist.
+The server automatically uses Render's `PORT`.
 
-## Important free-tier database note
+## WinForms client
+Set the client's HTTP base address to:
 
-This version still uses SQLite because it matches the current local project. Render's free web-service filesystem is ephemeral, so `accounts.db` can be lost when the free service spins down/restarts/redeploys. That means this is suitable for testing the public server, but it is **not yet a permanent account database**.
+`https://textchatfixed.onrender.com`
 
-For a longer-lived version, move the database to PostgreSQL. Render currently offers a Free Postgres option, but its free database expires after 30 days, so that is also best treated as a testing option unless you later move to a paid/persistent database.
+Example:
+`new HttpClient { BaseAddress = new Uri("https://textchatfixed.onrender.com") };`
+
+## Storage note
+SQLite on a free Render service is not persistent. Accounts/messages may reset after a restart, redeploy, or spin-down. Use a persistent database for a permanent service.

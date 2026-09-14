@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: my-text-chat-server
+    name: textchat-server
     runtime: docker
     plan: free
     dockerfilePath: ./Dockerfile
