@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: my-text-chat-server
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    envVars:
+      - key: ACCOUNT_ADMIN_USER
+        sync: false
+      - key: ACCOUNT_ADMIN_PASSWORD
+        sync: false
