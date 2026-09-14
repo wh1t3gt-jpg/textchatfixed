@@ -1,0 +1,6 @@
+bin/
+obj/
+.vs/
+accounts.db
+*.user
+*.suo
